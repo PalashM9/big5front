@@ -6,48 +6,10 @@
     <title>Webis Psych</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Skeleton Loader Animation */
-        .skeleton {
-            background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            height: 20px;
-            border-radius: 5px;
-        }
-        @keyframes loading {
-            0% { background-position: 100% 0; }
-            100% { background-position: -100% 0; }
-        }
-        .hidden { display: none; }
-        /* Loader Overlay Styles */
-        .loader-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border-left-color: #3498db;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+    .skeleton{background:linear-gradient(90deg,#e0e0e0 25%,#f5f5f5 50%,#e0e0e0 75%);background-size:200% 100%;animation:1.5s infinite loading;height:20px;border-radius:5px}@keyframes loading{0%{background-position:100% 0}100%{background-position:-100% 0}}.hidden{display:none}.loader-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,.8);display:flex;justify-content:center;align-items:center;z-index:1000}.spinner{border:4px solid rgba(0,0,0,.1);width:40px;height:40px;border-radius:50%;border-left-color:#3498db;animation:1s linear infinite spin}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.notif-one,.notif-two{position:absolute;top:5%;right:2%}.notif-two{top:calc(5% + 8%)}.steps{margin:10px 0 5px}
     </style>
 </head>
 <body class="bg-gray-100 flex justify-center items-center min-h-screen">
-    <!-- Loader Overlay -->
     <div id="loader" class="loader-overlay hidden">
         <div class="spinner"></div>
     </div>
@@ -58,27 +20,33 @@
         <input type="text" id="name" class="w-full border p-2 rounded mb-4" placeholder="Enter your name">
         <button onclick="setUserName()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Start</button>
     </div>
-
+    
+   <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 notif-one hidden" role="alert" id="notif-one">
+    <span class="font-medium">#Tip 1 : Please take your time to review all the options in the question dropdown. <br>
+    It is essential to go through the entire list before selecting a question.
+</span>
+   </div>
+   <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 notif-two hidden" role="alert" id="notif-two">
+    <span class="font-medium">#Tip 2 : Avoid stopping at the first relevant option <br> Exploring all choices can provide deeper insights.
+</span>
+   </div>
     <div id="mainSurvey" class="hidden bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
-        <h1 class="text-2xl font-bold mb-4">
-            1. Carefully read the patient's statement to understand their situation.<br>
-            2. Select the category that most closely aligns with their context.<br>
-            3. Choose a follow-up question to keep the conversation going and gain deeper insights into their personality.
-        </h1>
         
         <p id="progress" class="text-gray-600 mb-6">Progress: <span id="progressCount">1</span> / <span id="totalQuestions"></span></p>
-
-        <label class="block font-semibold mb-2">Patient Statement:</label>
+        <h1 class="text-2xl font-bold mb-3 mt-2">Step 1. Carefully read the patient's statement to understand their situation.</h1>
+        <label class="block font-semibold mb-2 mt-2 italic">Patient Statement:</label>
         <div id="patientSkeleton" class="skeleton w-full h-10 mb-4"></div>
         <p id="patientStatement" class="bg-gray-200 p-3 rounded mb-4 hidden"></p>
-
-        <label class="block font-semibold mb-2 hidden" id="categoryLabel">Select the context category that best aligns with the patient's situation :</label>
+        <hr>
+        <h1 class="text-2xl font-bold mb-3 mt-4">Step 2. Select the category that most closely aligns with their context.</h1>
+        <label class="block font-semibold mb-2 hidden italic" id="categoryLabel">Context Categories :</label>
         <div id="categorySkeleton" class="skeleton w-full h-10 mb-4"></div>
         <select id="category" class="w-full border p-2 rounded mb-4 hidden" onchange="fetchQuestions()">
             <option value="">Select a category</option>
         </select>
-
-        <label class="block font-semibold mb-2 hidden" id="questionLabel">Select a relevant follow-up question that aligns with the patient's situation and provides deeper insight into their personality :</label>
+        <hr>
+        <h1 class="text-2xl font-bold mb-3 mt-4">Step 3. Choose a follow-up question to keep the conversation going and gain deeper insights into their personality.</h1>
+        <label class="block font-semibold mb-2 hidden italic" id="questionLabel">Select the question that you believe will encourage the patient to open up more about the topic, allowing you to gain a deeper understanding of their personality :</label>
         <div id="questionSkeleton" class="skeleton w-full h-10 mb-4"></div>
         <select id="question" class="w-full border p-2 rounded mb-4 hidden" required>
             <option value="">Select a question</option>
@@ -94,167 +62,7 @@
     </div>
 
     <script>
-    let patientStatements = [];
-    let currentIndex = 0;
-    let userName = localStorage.getItem("current_user") || "";  
-
-    // Helper function to shuffle arrays in place
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    }
-
-    async function setUserName() {
-        userName = document.getElementById("name").value;
-        if (!userName) {
-            alert("Please enter your name");
-            return;
-        }
-
-        // Show loader overlay
-        document.getElementById("loader").classList.remove("hidden");
-
-        localStorage.setItem("current_user", userName);
-
-        await fetch('https://big5-wish.onrender.com/set_user', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: userName })
-        });
-
-        document.getElementById("welcomeScreen").classList.add("hidden");
-        document.getElementById("mainSurvey").classList.remove("hidden");
-
-        loadPatientStatements();
-    }
-
-    async function loadPatientStatements() {
-        const response = await fetch('https://big5-wish.onrender.com/get_patient_statements');
-        const data = await response.json();
-        patientStatements = data.patient_statements;
-        // Shuffle patientStatements each time they're fetched
-        shuffleArray(patientStatements);
-
-        document.getElementById("totalQuestions").textContent = patientStatements.length;
-        updateStatement();
-    }
-
-    function updateStatement() {
-        // Hide loader after data is ready
-        document.getElementById("loader").classList.add("hidden");
-
-        if (currentIndex < patientStatements.length) {
-            document.getElementById("patientSkeleton").classList.remove("hidden");
-            document.getElementById("categorySkeleton").classList.remove("hidden");
-            document.getElementById("questionSkeleton").classList.remove("hidden");
-
-            document.getElementById("patientStatement").classList.add("hidden");
-            document.getElementById("categoryLabel").classList.add("hidden");
-            document.getElementById("category").classList.add("hidden");
-            document.getElementById("questionLabel").classList.add("hidden");
-            document.getElementById("question").classList.add("hidden");
-
-            setTimeout(() => {
-                document.getElementById("patientSkeleton").classList.add("hidden");
-                document.getElementById("patientStatement").classList.remove("hidden");
-                document.getElementById("patientStatement").textContent = patientStatements[currentIndex];
-                document.getElementById("progressCount").textContent = currentIndex + 1;
-                fetchCategories();
-            }, 300);
-        } else {
-            document.getElementById("mainSurvey").classList.add("hidden");
-            document.getElementById("thankYou").classList.remove("hidden");
-        }
-    }
-
-    async function fetchCategories() {
-        const response = await fetch('https://big5-wish.onrender.com/get_categories', { method: 'POST' });
-        const data = await response.json();
-        let categorySelect = document.getElementById("category");
-        categorySelect.innerHTML = '<option value="">Select a category</option>';
-        data.categories.forEach(category => {
-            let option = document.createElement("option");
-            option.value = category;
-            option.textContent = category;
-            categorySelect.appendChild(option);
-        });
-
-        setTimeout(() => {
-            document.getElementById("categorySkeleton").classList.add("hidden");
-            document.getElementById("categoryLabel").classList.remove("hidden");
-            categorySelect.classList.remove("hidden");
-        }, 1500);
-    }
-
-    async function fetchQuestions() {
-        let category = document.getElementById("category").value;
-        if (!category) return;
-        document.getElementById("questionSkeleton").classList.remove("hidden");
-        document.getElementById("question").classList.add("hidden");
-        document.getElementById("questionLabel").classList.add("hidden");
-
-        const response = await fetch('https://big5-wish.onrender.com/get_questions', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ category })
-        });
-        const data = await response.json();
-        let questionSelect = document.getElementById("question");
-        questionSelect.innerHTML = '<option value="">Select a question</option><option value="not_sure">I am not sure</option>';
-        // Shuffle the questions
-        shuffleArray(data.questions);
-        data.questions.forEach(question => {
-            let option = document.createElement("option");
-            option.value = question;
-            option.textContent = question;
-            questionSelect.appendChild(option);
-        });
-
-        setTimeout(() => {
-            document.getElementById("questionSkeleton").classList.add("hidden");
-            document.getElementById("questionLabel").classList.remove("hidden");
-            questionSelect.classList.remove("hidden");
-        }, 1500);
-    }
-
-    async function submitResponse() {
-        let category = document.getElementById("category").value;
-        let selectedQuestion = document.getElementById("question").value;
-
-        // Retrieve stored username
-        let storedUserName = localStorage.getItem("current_user");
-        if (!storedUserName) {
-            alert("User name is missing! Please refresh and re-enter your name.");
-            return;
-        }
-
-        if (!category || !selectedQuestion) {
-            alert("Please select a category and a question before proceeding.");
-            return;
-        }
-
-        let response = await fetch('https://big5-wish.onrender.com/submit_response', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: storedUserName,  // ✅ Now explicitly sending name
-                patient_statement: patientStatements[currentIndex],
-                category: category,
-                selected_question: selectedQuestion
-            })
-        });
-
-        let data = await response.json();
-        if (data.success) {
-            currentIndex++;
-            updateStatement();
-        } else {
-            alert("Error submitting response: " + data.message);
-        }
-    }
-
+    let patientStatements=[],currentIndex=0,userName=localStorage.getItem("current_user")||"";function shuffleArray(e){for(let t=e.length-1;t>0;t--){let n=Math.floor(Math.random()*(t+1));[e[t],e[n]]=[e[n],e[t]]}}async function setUserName(){if(!(userName=document.getElementById("name").value)){alert("Please enter your name");return}document.getElementById("loader").classList.remove("hidden"),localStorage.setItem("current_user",userName),await fetch("https://big5-wish.onrender.com/set_user",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:userName})}),document.getElementById("welcomeScreen").classList.add("hidden"),document.getElementById("mainSurvey").classList.remove("hidden"),loadPatientStatements()}async function loadPatientStatements(){let e=await fetch("https://big5-wish.onrender.com/get_patient_statements"),t=await e.json();shuffleArray(patientStatements=t.patient_statements),document.getElementById("notif-one").classList.remove("hidden"),document.getElementById("notif-two").classList.remove("hidden"),document.getElementById("totalQuestions").textContent=patientStatements.length,updateStatement()}function updateStatement(){document.getElementById("loader").classList.add("hidden"),currentIndex<patientStatements.length?(document.getElementById("patientSkeleton").classList.remove("hidden"),document.getElementById("categorySkeleton").classList.remove("hidden"),document.getElementById("questionSkeleton").classList.remove("hidden"),document.getElementById("patientStatement").classList.add("hidden"),document.getElementById("categoryLabel").classList.add("hidden"),document.getElementById("category").classList.add("hidden"),document.getElementById("questionLabel").classList.add("hidden"),document.getElementById("question").classList.add("hidden"),setTimeout(()=>{document.getElementById("patientSkeleton").classList.add("hidden"),document.getElementById("patientStatement").classList.remove("hidden"),document.getElementById("patientStatement").textContent=patientStatements[currentIndex],document.getElementById("progressCount").textContent=currentIndex+1,fetchCategories()},300)):(document.getElementById("mainSurvey").classList.add("hidden"),document.getElementById("thankYou").classList.remove("hidden"))}async function fetchCategories(){let e=await fetch("https://big5-wish.onrender.com/get_categories",{method:"POST"}),t=await e.json(),n=document.getElementById("category");n.innerHTML='<option value="">Select a category</option>',t.categories.forEach(e=>{let t=document.createElement("option");t.value=e,t.textContent=e,n.appendChild(t)}),setTimeout(()=>{document.getElementById("categorySkeleton").classList.add("hidden"),document.getElementById("categoryLabel").classList.remove("hidden"),n.classList.remove("hidden")},1500)}async function fetchQuestions(){let e=document.getElementById("category").value;if(!e)return;document.getElementById("questionSkeleton").classList.remove("hidden"),document.getElementById("question").classList.add("hidden"),document.getElementById("questionLabel").classList.add("hidden");let t=await fetch("https://big5-wish.onrender.com/get_questions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({category:e})}),n=await t.json(),s=document.getElementById("question");s.innerHTML='<option value="">Select a question</option><option value="not_sure">I am not sure</option>',shuffleArray(n.questions),n.questions.forEach(e=>{let t=document.createElement("option");t.value=e,t.textContent=e,s.appendChild(t)}),setTimeout(()=>{document.getElementById("questionSkeleton").classList.add("hidden"),document.getElementById("questionLabel").classList.remove("hidden"),s.classList.remove("hidden")},1500)}async function submitResponse(){let e=document.getElementById("category").value,t=document.getElementById("question").value,n=localStorage.getItem("current_user");if(!n){alert("User name is missing! Please refresh and re-enter your name.");return}if(!e||!t){alert("Please select a category and a question before proceeding.");return}let s=await (await fetch("https://big5-wish.onrender.com/submit_response",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:n,patient_statement:patientStatements[currentIndex],category:e,selected_question:t})})).json();s.success?(currentIndex++,updateStatement()):alert("Error submitting response: "+s.message)}
     </script>
 </body>
 </html>
