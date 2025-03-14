@@ -6,10 +6,10 @@
     <title>Webis Psych</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-    .skeleton{background:linear-gradient(90deg,#e0e0e0 25%,#f5f5f5 50%,#e0e0e0 75%);background-size:200% 100%;animation:1.5s infinite loading;height:20px;border-radius:5px}@keyframes loading{0%{background-position:100% 0}100%{background-position:-100% 0}}.hidden{display:none}.loader-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,.8);display:flex;justify-content:center;align-items:center;z-index:1000}.spinner{border:4px solid rgba(0,0,0,.1);width:40px;height:40px;border-radius:50%;border-left-color:#3498db;animation:1s linear infinite spin}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.notif-one,.notif-two{position:absolute;top:5%;right:2%}.notif-two{top:calc(5% + 8%)}.steps{margin:10px 0 5px}
+    .skeleton{background:linear-gradient(90deg,#e0e0e0 25%,#f5f5f5 50%,#e0e0e0 75%);background-size:200% 100%;animation:1.5s infinite loading;height:20px;border-radius:5px}@keyframes loading{0%{background-position:100% 0}100%{background-position:-100% 0}}.hidden{display:none}.loader-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,.8);display:flex;justify-content:center;align-items:center;z-index:1000}.spinner{border:4px solid rgba(0,0,0,.1);width:40px;height:40px;border-radius:50%;border-left-color:#3498db;animation:1s linear infinite spin}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.notif-one,.notif-two{position:absolute;top:5%;right:2%; max-width: 200px;}.notif-two{top:calc(5% + 25%)}.steps{margin:10px 0 5px}
     </style>
 </head>
-<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+<body class="bg-gray-100 flex justify-center items-center min-h-screen text-sm">
     <div id="loader" class="loader-overlay hidden">
         <div class="spinner"></div>
     </div>
@@ -22,12 +22,12 @@
     </div>
     
    <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 notif-one hidden" role="alert" id="notif-one">
-    <span class="font-medium">#Tip 1 : Please take your time to review all the options in the question dropdown. <br>
+    <span class="font-medium">#Tip 1 : Please take your time to review all the options in the question dropdown. 
     It is essential to go through the entire list before selecting a question.
 </span>
    </div>
    <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 notif-two hidden" role="alert" id="notif-two">
-    <span class="font-medium">#Tip 2 : Avoid stopping at the first relevant option <br> Exploring all choices can provide deeper insights.
+    <span class="font-medium">#Tip 2 : Avoid stopping at the first relevant option Exploring all choices can provide deeper insights.
 </span>
    </div>
     <div id="mainSurvey" class="hidden bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
