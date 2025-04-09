@@ -26,6 +26,7 @@ async function setUserName() {
         welcomeScreen.classList.add("hidden");
         showFakeLoadingSteps(userName, () => {
             document.getElementById("mainSurvey").classList.remove("hidden");
+            setMeme();
             loadPatientStatements();
         });
     }, 500);
@@ -133,6 +134,8 @@ function updateStatement() {
         }, 300);
     } else {
         document.getElementById("mainSurvey").classList.add("hidden");
+        document.getElementById("notif-one").classList.add("hidden");
+        document.getElementById("notif-two").classList.add("hidden");
         document.getElementById("thankYou").classList.remove("hidden");
     }
 }
@@ -242,7 +245,6 @@ async function submitResponse() {
     if (result.success) {
         currentIndex++;
         updateStatement();
-        setMeme();
         document.getElementById("feedback").value = "";
     } else {
         alert("Error submitting response: " + result.message);
@@ -284,12 +286,8 @@ const memes = [{
         text: "Free survey. No coffee, no cash. Just good vibes and moral superiority. ☕✨"
     },
     {
-        src: '/memes/13.png',
-        text: "You answered that like you’ve been professionally overthinking for years."
-    },
-    {
         src: '/memes/6.png',
-        text: "Even Sad Pepe believes in your emotional growth now."
+        text: "You answered that like you’ve been professionally overthinking for years."
     },
     {
         src: '/memes/8.png',
@@ -352,37 +350,42 @@ const memes = [{
 
 
 let memeSequence = [...memes];
-shuffleArray(memeSequence);
 let memeIndex = 0;
+let nextMeme = null;
 
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
+(function shuffleMemes() {
+  for (let i = memeSequence.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [memeSequence[i], memeSequence[j]] = [memeSequence[j], memeSequence[i]];
+  }
+})();
 
 function setMeme() {
     if (memeIndex >= memeSequence.length) return;
-    const meme = memeSequence[memeIndex++];
-    const memeOverlay = document.getElementById("memeOverlay");
-    const memeText = document.getElementById("memeText");
+    nextMeme = memeSequence[memeIndex++];
+  
+    const preload = new Image();
+    preload.src = nextMeme.src;
     const memeImage = document.getElementById("memeImage");
-    const tempImg = new Image();
+    const memeText = document.getElementById("memeText");
+  
+    memeImage.src = nextMeme.src;
+    memeText.textContent = nextMeme.text;
+  }
+  
 
-    tempImg.onload = () => {
-        memeImage.src = meme.src;
-        memeText.textContent = meme.text;
-    };
-
-    tempImg.src = meme.src;
-}
-
-function showMemeOverlay() {
-
+  function showMemeOverlay() {
+    if (!nextMeme) return;
+  
+    
+    const memeOverlay = document.getElementById("memeOverlay");
     memeOverlay.classList.remove("hidden");
+  
     setTimeout(() => {
-        memeOverlay.classList.add("hidden");
+      memeOverlay.classList.add("hidden");
+      setMeme();
     }, 4500);
-
-}
+  
+    
+  }
+  
