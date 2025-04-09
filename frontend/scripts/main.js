@@ -230,6 +230,7 @@ async function submitResponse() {
   const result = await response.json();
 
   if (result.success) {
+    showMemeOverlay();
     currentIndex++;
     updateStatement();
     document.getElementById("feedback").value = "";
@@ -253,27 +254,28 @@ questionDropdown.addEventListener("change", () => {
 });
 
 const memes = [
-    { src: '/memes/1.png', text: "When you answer deep questions for free and still vibe like a champ." },
-    { src: '/memes/2.png', text: "Everything's fine. You nailed that last one! 🔥" },
-    { src: '/memes/3.png', text: "That follow-up was so good, even Pikachu is shocked." },
-    { src: '/memes/4.png', text: "Judging... but impressed. Carry on!" },
-    { src: '/memes/5.png', text: "No reward, no money. Just good karma and vibes 💸✨" },
-    { src: '/memes/6.png', text: "You're smooth. That insight deserves a fedora tip." },
-    { src: '/memes/7.png', text: "Sad Pepe is proud of your emotional intelligence today." },
-    { src: '/memes/8.png', text: "This cat feels the feels just like you did in that answer." },
-    { src: '/memes/9.png', text: "You understood the assignment. This cat approves." },
-    { src: '/memes/10.png', text: "Butterflies of insight everywhere. You're on fire!" },
-    { src: '/memes/11.png', text: "That last one? Brewed to perfection. ☕🐱" },
-    { src: '/memes/12.png', text: "You're not grumpy, you're just honest. Respect." },
-    { src: '/memes/13.png', text: "STOP. Reflect. That was too deep." },
-    { src: '/memes/14.png', text: "Much wow. Very answer. So insight. 🐶" },
-    { src: '/memes/15.png', text: "Smart moves only. That response? Chef’s kiss." },
-    { src: '/memes/16.png', text: "That answer? Seasoned just right 🧂💡" },
-    { src: '/memes/17.png', text: "Even DiCaprio is raising a toast to that logic." },
-    { src: '/memes/18.png', text: "You just silenced the inner critic like a boss." },
-    { src: '/memes/19.png', text: "Wubba Lubba Dub Dub! That one was *scientifically* brilliant!" },
-    { src: '/memes/20.png', text: "Your brain: running on meme-fueled genius today." },
+    { src: '/memes/1.png', text: "Filling forms for free like a true unsung hero. 🫡" },
+    { src: '/memes/2.png', text: "You’re doing great sweetie… this survey was made for you. 🔥" },
+    { src: '/memes/3.png', text: "That answer hit harder than student debt." },
+    { src: '/memes/4.png', text: "Me judging your response... and lowkey admiring it." },
+    { src: '/memes/5.png', text: "Free survey. No coffee, no cash. Just good vibes and moral superiority. ☕✨" },
+    { src: '/memes/6.png', text: "You answered that like you’ve been professionally overthinking for years." },
+    { src: '/memes/7.png', text: "Even Sad Pepe believes in your emotional growth now." },
+    { src: '/memes/8.png', text: "This cat saw your answer and started rethinking its life choices." },
+    { src: '/memes/9.png', text: "That response? Straight from the ‘I overanalyze everything’ vault." },
+    { src: '/memes/10.png', text: "You’re radiating butterfly energy and trauma wisdom rn." },
+    { src: '/memes/11.png', text: "You deserve a hot drink for that kind of self-reflection. ☕🐱" },
+    { src: '/memes/12.png', text: "This face says it all: impressed, but deeply confused by how real that was." },
+    { src: '/memes/13.png', text: "Stop. Just stop. That answer was *too* good. 🛑" },
+    { src: '/memes/14.png', text: "Very thoughts. Much depth. So psychology. 🧠" },
+    { src: '/memes/15.png', text: "Remember: if you don’t know the answer, say it confidently anyway. 🤓" },
+    { src: '/memes/16.png', text: "Sprinkling truth like Salt Bae and making us reflect." },
+    { src: '/memes/17.png', text: "Leo approves. And he’s picky. 👏" },
+    { src: '/memes/18.png', text: "You just shut down that inner critic like a boss. 🎤" },
+    { src: '/memes/19.png', text: "That was so good, Rick wants to clone your brain." },
+    { src: '/memes/20.png', text: "Your brain after finishing one deep question: ‘I'm done.’ But you’re not." },
   ];
+  
   
 
   function showMemeOverlay() {
