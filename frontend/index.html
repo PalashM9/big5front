@@ -79,7 +79,10 @@
     
       <!-- Main Survey -->
       <div id="mainSurvey" class="hidden bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
-        <p id="progress" class="text-gray-600 mb-6">Progress: <span id="progressCount">1</span> / <span id="totalQuestions"></span></p>
+        <div class="flex justify-between items-center mb-6">
+            <p id="progress" class="text-gray-600">Progress: <span id="progressCount">1</span> / <span id="totalQuestions"></span></p>
+            <button onclick="document.getElementById('exampleModal').classList.remove('hidden')" class="text-sm text-blue-600 hover:underline">View Example</button>
+        </div>
     
         <!-- Step 1 -->
         <h1 class="text-2xl font-bold mb-3 mt-2">
@@ -155,6 +158,28 @@
         <h1 class="text-2xl font-bold mb-4">Thank You!</h1>
         <p class="text-gray-600">Thanks for supporting this research. Your responses have been recorded.</p>
         <div class="animate-bounce mt-4">🙏</div>
+      </div>
+
+      <div id="exampleModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg max-w-lg w-full relative">
+          <button onclick="document.getElementById('exampleModal').classList.add('hidden')" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl">&times;</button>
+          <h2 class="text-xl font-bold mb-2">Example Statement & Best Question</h2>
+          <p class="text-sm italic mb-3">
+            <span>User Statement:</span>
+            <span>"People who are parental figures in my life have, in the past, hurt me, and some continue to do so. It makes me feel like I'm not good enough for my husband or the life he provides me. I have had jobs, but I am going through a lot of my past garbage and trying to figure out when it all went wrong. Any time I bring these things up, I am expected to be over the issue. These are people that you can't just cut out, but I have never received apologies for so much of my pain. I don't know what to do any more. I don't know who I am anymore."</span>
+          </p>
+          <p class="text-sm mb-2">
+            <strong>Correct Topic:</strong> Emotional and Psychological States
+          </p>
+          <p class="text-sm mb-2">
+            <strong>Best Follow-up Question:</strong><br>
+            “Do you feel that you are someone who often feels insecure?”
+          </p>
+          <p class="text-sm text-gray-600">
+            <strong>Why?</strong><br>
+            This question aligns best because the user expresses deep emotional vulnerability and confusion about their self-worth. It invites them to reflect gently on the core of their pain without being intrusive.
+          </p>
+        </div>
       </div>
       <script>
          let patientStatements = [],
@@ -281,7 +306,7 @@
            });
            const data = await response.json();
            const categorySelect = document.getElementById("category");
-           categorySelect.innerHTML = '<option value="">Select a category</option>';
+           categorySelect.innerHTML = '<option value="">Select a topic</option>';
          
            data.categories.forEach(category => {
              const option = document.createElement("option");
