@@ -251,3 +251,40 @@ questionDropdown.addEventListener("change", () => {
     questionOpenTime = null;
   }
 });
+
+const memes = [
+    { src: '/memes/1.png', text: "When you answer deep questions for free and still vibe like a champ." },
+    { src: '/memes/2.png', text: "Everything's fine. You nailed that last one! 🔥" },
+    { src: '/memes/3.png', text: "That follow-up was so good, even Pikachu is shocked." },
+    { src: '/memes/4.png', text: "Judging... but impressed. Carry on!" },
+    { src: '/memes/5.png', text: "No reward, no money. Just good karma and vibes 💸✨" },
+    { src: '/memes/6.png', text: "You're smooth. That insight deserves a fedora tip." },
+    { src: '/memes/7.png', text: "Sad Pepe is proud of your emotional intelligence today." },
+    { src: '/memes/8.png', text: "This cat feels the feels just like you did in that answer." },
+    { src: '/memes/9.png', text: "You understood the assignment. This cat approves." },
+    { src: '/memes/10.png', text: "Butterflies of insight everywhere. You're on fire!" },
+    { src: '/memes/11.png', text: "That last one? Brewed to perfection. ☕🐱" },
+    { src: '/memes/12.png', text: "You're not grumpy, you're just honest. Respect." },
+    { src: '/memes/13.png', text: "STOP. Reflect. That was too deep." },
+    { src: '/memes/14.png', text: "Much wow. Very answer. So insight. 🐶" },
+    { src: '/memes/15.png', text: "Smart moves only. That response? Chef’s kiss." },
+    { src: '/memes/16.png', text: "That answer? Seasoned just right 🧂💡" },
+    { src: '/memes/17.png', text: "Even DiCaprio is raising a toast to that logic." },
+    { src: '/memes/18.png', text: "You just silenced the inner critic like a boss." },
+    { src: '/memes/19.png', text: "Wubba Lubba Dub Dub! That one was *scientifically* brilliant!" },
+    { src: '/memes/20.png', text: "Your brain: running on meme-fueled genius today." },
+  ];
+  
+
+  function showMemeOverlay() {
+    const random = memes[Math.floor(Math.random() * memes.length)];
+    document.getElementById("memeImage").src = random.src;
+    document.getElementById("memeText").textContent = random.text;
+    document.getElementById("memeOverlay").classList.remove("hidden");
+    setTimeout(() => {
+      document.getElementById("memeOverlay").classList.add("hidden");
+    }, 3500);
+  }
+
+  // Example: hook this into submitResponse's success case or next button
+  // showMemeOverlay();
