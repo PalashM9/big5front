@@ -228,9 +228,8 @@ async function submitResponse() {
   });
 
   const result = await response.json();
-
+  showMemeOverlay();
   if (result.success) {
-    showMemeOverlay();
     currentIndex++;
     updateStatement();
     document.getElementById("feedback").value = "";
@@ -254,39 +253,49 @@ questionDropdown.addEventListener("change", () => {
 });
 
 const memes = [
-    { src: '/memes/1.png', text: "Filling forms for free like a true unsung hero. 🫡" },
-    { src: '/memes/2.png', text: "You’re doing great sweetie… this survey was made for you. 🔥" },
+    { src: '/memes/20.png', text: "Filling forms for free like a true unsung hero. 🫡" },
+    { src: '/memes/1.png', text: "You’re doing great sweetie… this survey was made for you. 🔥" },
     { src: '/memes/3.png', text: "That answer hit harder than student debt." },
-    { src: '/memes/4.png', text: "Me judging your response... and lowkey admiring it." },
-    { src: '/memes/5.png', text: "Free survey. No coffee, no cash. Just good vibes and moral superiority. ☕✨" },
-    { src: '/memes/6.png', text: "You answered that like you’ve been professionally overthinking for years." },
-    { src: '/memes/7.png', text: "Even Sad Pepe believes in your emotional growth now." },
+    { src: '/memes/5.png', text: "Me judging your response... and lowkey admiring it." },
+    { src: '/memes/4.png', text: "Free survey. No coffee, no cash. Just good vibes and moral superiority. ☕✨" },
+    { src: '/memes/13.png', text: "You answered that like you’ve been professionally overthinking for years." },
+    { src: '/memes/6.png', text: "Even Sad Pepe believes in your emotional growth now." },
     { src: '/memes/8.png', text: "This cat saw your answer and started rethinking its life choices." },
-    { src: '/memes/9.png', text: "That response? Straight from the ‘I overanalyze everything’ vault." },
-    { src: '/memes/10.png', text: "You’re radiating butterfly energy and trauma wisdom rn." },
-    { src: '/memes/11.png', text: "You deserve a hot drink for that kind of self-reflection. ☕🐱" },
-    { src: '/memes/12.png', text: "This face says it all: impressed, but deeply confused by how real that was." },
-    { src: '/memes/13.png', text: "Stop. Just stop. That answer was *too* good. 🛑" },
-    { src: '/memes/14.png', text: "Very thoughts. Much depth. So psychology. 🧠" },
-    { src: '/memes/15.png', text: "Remember: if you don’t know the answer, say it confidently anyway. 🤓" },
-    { src: '/memes/16.png', text: "Sprinkling truth like Salt Bae and making us reflect." },
-    { src: '/memes/17.png', text: "Leo approves. And he’s picky. 👏" },
-    { src: '/memes/18.png', text: "You just shut down that inner critic like a boss. 🎤" },
-    { src: '/memes/19.png', text: "That was so good, Rick wants to clone your brain." },
-    { src: '/memes/20.png', text: "Your brain after finishing one deep question: ‘I'm done.’ But you’re not." },
+    { src: '/memes/2.png', text: "That response? Straight from the ‘I overanalyze everything’ vault." },
+    { src: '/memes/9.png', text: "You’re radiating butterfly energy and trauma wisdom rn." },
+    { src: '/memes/10.png', text: "You deserve a hot drink for that kind of self-reflection. ☕🐱" },
+    { src: '/memes/7.png', text: "This face says it all: impressed, but deeply confused by how real that was." },
+    { src: '/memes/19.png', text: "Stop. Just stop. That answer was *too* good. 🛑" },
+    { src: '/memes/16.png', text: "Very thoughts. Much depth. So psychology. 🧠" },
+    { src: '/memes/11.png', text: "Remember: if you don’t know the answer, say it confidently anyway. 🤓" },
+    { src: '/memes/12.png', text: "Sprinkling truth like Salt Bae and making us reflect." },
+    { src: '/memes/13.png', text: "Leo approves. And he’s picky. 👏" },
+    { src: '/memes/14.png', text: "You just shut down that inner critic like a boss. 🎤" },
+    { src: '/memes/15.png', text: "That was so good, Rick wants to clone your brain." },
+    { src: '/memes/17.png', text: "Your brain after finishing one deep question: ‘I'm done.’ But you’re not." },
+    { src: '/memes/18.png', text: "That moment when you realize this form helps you to become a better friend now." },
   ];
   
   
 
   function showMemeOverlay() {
     const random = memes[Math.floor(Math.random() * memes.length)];
-    document.getElementById("memeImage").src = random.src;
-    document.getElementById("memeText").textContent = random.text;
-    document.getElementById("memeOverlay").classList.remove("hidden");
-    setTimeout(() => {
-      document.getElementById("memeOverlay").classList.add("hidden");
-    }, 3500);
+    const memeImage = document.getElementById("memeImage");
+    const memeText = document.getElementById("memeText");
+    const memeOverlay = document.getElementById("memeOverlay");
+  
+    memeOverlay.classList.remove("hidden");
+    memeText.textContent = ""; 
+    memeImage.onload = () => {
+      memeText.textContent = random.text;
+      setTimeout(() => {
+        memeOverlay.classList.add("hidden");
+      }, 3500);
+    };
+  
+    memeImage.src = random.src; 
   }
+  
 
   // Example: hook this into submitResponse's success case or next button
   // showMemeOverlay();
