@@ -278,23 +278,40 @@ const memes = [
   
   
 
-  function showMemeOverlay() {
-    const random = memes[Math.floor(Math.random() * memes.length)];
-    const memeImage = document.getElementById("memeImage");
-    const memeText = document.getElementById("memeText");
-    const memeOverlay = document.getElementById("memeOverlay");
-  
-    memeOverlay.classList.remove("hidden");
-    memeText.textContent = ""; 
-    memeImage.onload = () => {
-      memeText.textContent = random.text;
-      setTimeout(() => {
-        memeOverlay.classList.add("hidden");
-      }, 3500);
-    };
-  
-    memeImage.src = random.src; 
+  let memeSequence = [...memes];
+shuffleArray(memeSequence);
+let memeIndex = 0;
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
+}
+
+function showMemeOverlay() {
+  if (memeIndex >= memeSequence.length) return;
+
+  const meme = memeSequence[memeIndex++];
+  const memeOverlay = document.getElementById("memeOverlay");
+  const memeText = document.getElementById("memeText");
+  const memeImage = document.getElementById("memeImage");
+
+  // Preload the image to avoid flicker
+  const tempImg = new Image();
+  tempImg.onload = () => {
+    memeImage.src = meme.src;
+    memeText.textContent = meme.text;
+    memeOverlay.classList.remove("hidden");
+
+    setTimeout(() => {
+      memeOverlay.classList.add("hidden");
+    }, 4500);
+  };
+
+  tempImg.src = meme.src;
+}
+
   
 
   // Example: hook this into submitResponse's success case or next button
