@@ -57,7 +57,7 @@ function showFakeLoadingSteps(userName, callback) {
     stepElement.innerHTML = `🔄 ${steps[stepIndex]}`;
     stepMessages.appendChild(stepElement);
 
-    // Hold on final step until API returns success
+    // Final step: wait for set_user to succeed
     if (stepIndex === steps.length - 1) {
       waitForSetUser(stepElement, callback);
     } else {
@@ -80,14 +80,13 @@ function showFakeLoadingSteps(userName, callback) {
         setTimeout(() => {
           fakeLoader.classList.add("hidden");
           onSuccess();
-        }, 1000);
+        }, 800);
         return;
       }
     } catch (err) {
-      // ignore and retry
+      // continue retrying
     }
 
-    // Retry after 1.5s if failed
     setTimeout(() => waitForSetUser(finalStepElement, onSuccess), 1500);
   }
 
