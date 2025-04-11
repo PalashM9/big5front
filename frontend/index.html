@@ -17,23 +17,25 @@
         <p id="memeText"></p>
       </div>
       <!-- Fake Loader Steps -->
-      <div id="fakeLoader" class="hidden bg-white p-8 rounded-lg shadow-md w-full max-w-2xl text-sm">
+      <div id="fakeLoader" class="hidden bg-white p-8 rounded-lg shadow-md lg:w-full max-w-2xl md:w-80 text-sm">
          <h2 class="text-xl font-bold mb-4">Preparing your experience...</h2>
          <div id="stepMessages" class="space-y-2 font-mono text-gray-700"></div>
       </div>
       <!-- Welcome Screen -->
-      <div id="welcomeScreen" class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
+      <div id="welcomeScreen" class="bg-white p-8 rounded-lg shadow-md lg:w-full max-w-2xl md:w-80">
          <h1 class="text-2xl font-bold mb-4">Psych User Case Study</h1>
          <p class="text-gray-600 mb-6">Enter your name to begin:</p>
          <input type="text" id="name" class="w-full border p-2 rounded mb-4" placeholder="Enter your name">
          <button onclick="setUserName()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Start</button>
       </div>
       <!-- Tips -->
-      <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 notif-one hidden" role="alert" id="notif-one">
-         <span class="font-medium">#Tip 1: Please take your time to review all the options in the question dropdown.</span>
-      </div>
-      <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 notif-two hidden" role="alert" id="notif-two">
-         <span class="font-medium">#Tip 2: Avoid stopping at the first relevant option. Exploring all choices can provide deeper insights.</span>
+      <div class="tips">
+         <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 notif-one hidden" role="alert" id="notif-one">
+            <span class="font-medium">#Tip 1: Please take your time to review all the options in the question dropdown.</span>
+         </div>
+         <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 notif-two hidden" role="alert" id="notif-two">
+            <span class="font-medium">#Tip 2: Avoid stopping at the first relevant option. Exploring all choices can provide deeper insights.</span>
+         </div>
       </div>
       <!-- Main Survey -->
       <div id="mainSurvey" class="hidden bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
@@ -46,7 +48,7 @@
             Step 1. Carefully read the user's statement to understand their situation.
             <span class="tooltip-container text-blue-500 font-bold text-lg cursor-pointer ml-1">
                ?
-               <div class="tooltip-text w-64">
+               <div class="tooltip-text w-64 text-sm">
                   Imagine a close friend sharing this with you during a vulnerable moment. Try to feel what they might be going through. Your role is to understand, not judge.
                </div>
             </span>
@@ -60,7 +62,7 @@
             Step 2. Select the topic that most closely aligns with the user statement's context.
             <span class="tooltip-container text-blue-500 font-bold text-lg cursor-pointer ml-1">
                ?
-               <div class="tooltip-text w-64">
+               <div class="tooltip-text w-64 text-sm">
                   Think about what your friend is really talking about. Is it loneliness, self-worth, past trauma, or something else?
                </div>
             </span>
@@ -69,7 +71,7 @@
             Topics :
             <span class="tooltip-container text-blue-500 font-bold text-lg cursor-pointer ml-1">
                ?
-               <div class="tooltip-text w-96">
+               <div class="tooltip-text w-96 topics-tooltip text-sm">
                   <p class="mb-2"><strong>Think of the topics like this :</strong></p>
                   <ul class="list-disc list-inside space-y-1">
                      <li><strong>Exploration and Creativity:</strong> They're expressing curiosity, imagination, or artistic thoughts.</li>
@@ -91,7 +93,7 @@
             Step 3. Choose a follow-up question to keep the conversation going.
             <span class="tooltip-container text-blue-500 font-bold text-lg cursor-pointer ml-1">
                ?
-               <div class="tooltip-text w-64">
+               <div class="tooltip-text w-64 text-sm">
                   If your friend just said this to you, what would you gently ask next to help them open up more?
                </div>
             </span>
